@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin</title>
+</head>
+<body>
+<grid>
+    <form action="/admin/addUser" method="GET">
+        <button type="submit">Add User</button>
+    </form>
+
+    <form action="/logout" method="GET">
+        <button type="submit">Logout</button>
+    </form>
+</grid>
+<div>
+    <grid>
+        <th:block th:each="user : ${userList}">
+            <h3 th:text="${user}"></h3>
+            <a th:href="@{'admin/editUser/' + ${user.id}}">edit</a>
+            <form th:action="@{'admin/delete/' + ${user.id}}" th:method="delete">
+                <input type="submit" value="Delete"/>
+            </form>
+        </th:block>
+    </grid>
+</div>
+
+</body>
+</html>
