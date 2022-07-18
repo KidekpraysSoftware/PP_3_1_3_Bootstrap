@@ -7,14 +7,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long>  {
-
-
     User getUserByUsername(String username);
-    // @Query("select u from User u where u.id = ?1")
     User getUserById(Long id);
-
-
-
-
 }
 

@@ -22,8 +22,7 @@ import java.util.Set;
 @RequestMapping("/admin")
 public class AdminController {
 
-    @Autowired
-    RoleRepository roleRepository;
+
     private final UserService userService;
 
     public AdminController(UserService userService) {
@@ -77,7 +76,10 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    //добавление базового пользователя без админки (убрать RequestMapping)
+//добавление базового пользователя без админки (убрать RequestMapping)
+//    @Autowired
+//    RoleRepository roleRepository;
+
 //    @GetMapping("/default")
 //    public String base() {
 //        Set<Role> roleset = new HashSet<>();
@@ -95,5 +97,4 @@ public class AdminController {
 //        userService.saveUser(user);
 //        return "/index";
 //    }
-
 }

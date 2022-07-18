@@ -14,7 +14,6 @@ import java.util.Set;
 @Table(name = "users")
 public class User implements UserDetails, Serializable {
 
-
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,10 +31,8 @@ public class User implements UserDetails, Serializable {
     @Column(name = "mail")
     private String mail;
 
-
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
-
 
     public String rolesToString() {
         StringBuilder roles = new StringBuilder();
@@ -55,7 +52,6 @@ public class User implements UserDetails, Serializable {
 
         return roles.toString();
     }
-
 
     @Override
     public String toString() {
@@ -92,7 +88,6 @@ public class User implements UserDetails, Serializable {
     public boolean isEnabled() {
         return true;
     }
-
 
     public User() {
     }

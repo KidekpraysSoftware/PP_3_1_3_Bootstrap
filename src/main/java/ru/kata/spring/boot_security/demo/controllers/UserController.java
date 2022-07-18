@@ -29,7 +29,7 @@ public class UserController {
     }
 
     @GetMapping()
-    public String userShow(Principal principal, @CurrentSecurityContext(expression = "authentication?.name") String username, Model model) {
+    public String userShow(@CurrentSecurityContext(expression = "authentication?.name") String username, Model model) {
         User user = userService.getUserByUsername( username);
         model.addAttribute("user", user);
         return "user";

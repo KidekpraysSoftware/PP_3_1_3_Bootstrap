@@ -13,7 +13,6 @@ import java.util.Set;
 @Service
 public class UserServiceImpl implements  UserService{
 
-
     private BCryptPasswordEncoder  bCryptPasswordEncoder;
     private UserRepository userRepository;
     private RoleRepository roleRepository;
@@ -23,8 +22,6 @@ public class UserServiceImpl implements  UserService{
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
     }
-
-
 
     @Override
     public User getUserById(Long id) {
