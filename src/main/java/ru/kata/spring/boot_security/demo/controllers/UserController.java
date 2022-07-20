@@ -7,14 +7,10 @@ import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import ru.kata.spring.boot_security.demo.model.User;
-import ru.kata.spring.boot_security.demo.repository.UserRepository;
 import ru.kata.spring.boot_security.demo.service.UserService;
-
-import java.security.Principal;
 
 @Controller
 @RequestMapping("/user")
@@ -29,8 +25,8 @@ public class UserController {
     }
 
     @GetMapping()
-    public String userShow(@CurrentSecurityContext(expression = "authentication?.name") String username, Model model) {
-        User user = userService.getUserByUsername( username);
+    public String userPage(@CurrentSecurityContext(expression = "authentication?.name") String mail, Model model) {
+        User user = userService.getUserByMail(mail);
         model.addAttribute("user", user);
         return "user";
     }

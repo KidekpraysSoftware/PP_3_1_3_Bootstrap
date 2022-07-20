@@ -15,12 +15,11 @@ public class UserServiceImpl implements  UserService{
 
     private BCryptPasswordEncoder  bCryptPasswordEncoder;
     private UserRepository userRepository;
-    private RoleRepository roleRepository;
+
 
     public UserServiceImpl(BCryptPasswordEncoder bCryptPasswordEncoder, UserRepository userRepository, RoleRepository roleRepository) {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
     }
 
     @Override
@@ -29,8 +28,8 @@ public class UserServiceImpl implements  UserService{
     }
 
     @Override
-    public User getUserByUsername(String username) {
-        return userRepository.getUserByUsername(username);
+    public User getUserByMail(String mail) {
+        return userRepository.getUserByMail(mail);
     }
 
     @Override
@@ -53,10 +52,5 @@ public class UserServiceImpl implements  UserService{
     public void edit(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userRepository.save(user);
-    }
-
-    @Override
-    public List<Role> getAllRoles() {
-       return roleRepository.findAll();
     }
 }

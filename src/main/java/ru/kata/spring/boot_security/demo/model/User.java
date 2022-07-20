@@ -19,17 +19,19 @@ public class User implements UserDetails, Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "username")
-    private String username;
-    @Column(name = "password")
-    private String password;
-    @Column(name = "name")
-    private String name;
-    @Column(name = "last_name")
-    private String lastname;
-
     @Column(name = "mail")
     private String mail;
+    @Column(name = "password")
+    private String password;
+
+    @Column(name = "firstname")
+    private String firstname;
+
+    @Column(name = "lastname")
+    private String lastname;
+
+    @Column(name = "age")
+    private String age;
 
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
@@ -55,7 +57,7 @@ public class User implements UserDetails, Serializable {
 
     @Override
     public String toString() {
-        return id + " " + username + " " + name + " " + lastname + ", " + mail + ", " + rolesToString();
+        return id + " " + firstname + " " + lastname + " " + age + ", " + mail + ", " + rolesToString();
     }
 
     @Override
@@ -66,7 +68,7 @@ public class User implements UserDetails, Serializable {
 
     @Override
     public String getUsername() {
-        return username;
+        return mail;
     }
 
     @Override
@@ -93,22 +95,19 @@ public class User implements UserDetails, Serializable {
     }
 
     public User(String name, String lastName, String mail, String password) {
-        this.name = name;
+        this.firstname = name;
         this.lastname = lastName;
         this.mail = mail;
         this.password = password;
 
     }
 
-    public User(Long id, String username, String password, String name, String lastName, String mail, Set<Role> roles) {
-        this.id = id;
-        this.password = password;
-        this.username = username;
-
-
-        this.name = name;
-        this.lastname = lastName;
+    public User(String mail, String password, String firstname, String lastname, String age, Set<Role> roles) {
         this.mail = mail;
+        this.password = password;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.age = age;
         this.roles = roles;
     }
 }

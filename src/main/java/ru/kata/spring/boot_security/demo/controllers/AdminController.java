@@ -1,100 +1,54 @@
 package ru.kata.spring.boot_security.demo.controllers;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.repository.RoleRepository;
-import ru.kata.spring.boot_security.demo.repository.UserRepository;
+import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
-import java.lang.reflect.Array;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.security.Principal;
 
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
 
-
     private final UserService userService;
+    private final RoleService roleService;
 
-    public AdminController(UserService userService) {
+
+    public AdminController(UserService userService, RoleService roleService) {
         this.userService = userService;
+        this.roleService = roleService;
     }
-
-
     @GetMapping()
-    public String userShow(Model model) {
+    public String adminPage(@CurrentSecurityContext(expression = "authentication?.name") String mail, Model model) {
+        User admin = userService.getUserByMail(mail);
+        model.addAttribute("admin", admin);
+        model.addAttribute("newUser", new User());
         model.addAttribute("userList", userService.getAllUsers());
+        model.addAttribute("roleList", roleService.getAllRoles());
         return "admin";
     }
 
-
-    @GetMapping(value = "/addUser")
-    public String addUserPage(ModelMap model) {
-        model.addAttribute("user", new User());
-        model.addAttribute("allRoles", userService.getAllRoles());
-        return "addUser";
-    }
-
-
-    @PostMapping()
-    public String saveUser(@ModelAttribute("user") User user) {
-        System.out.println("post addUser start");
+    @PostMapping("/new")
+    public String saveUser(@ModelAttribute("newUser") User user) {
         userService.saveUser(user);
-        System.out.println("post addUser successfully");
         return "redirect:/admin";
     }
-
-
-    @GetMapping("/editUser/{id}")
-    public String editUser(@PathVariable("id") long id, Model model) {
-        User user = userService.getUserById(id);
-        user.setPassword("");
-        model.addAttribute("user", user);
-        model.addAttribute("allroles", userService.getAllRoles());
-        return "editUser";
-    }
-
 
     @PatchMapping("/{id}")
-    public String editUser(@ModelAttribute("user") User user) {
-        userService.saveUser(user);
+    public String update(@ModelAttribute("editUser") User user) {
+        userService.edit(user);
         return "redirect:/admin";
     }
 
-    @DeleteMapping("/delete/{id}")
-    public String deleteUser(@PathVariable("id") long id) {
+    @DeleteMapping("/{id}/delete")
+    public String deleteUser(@PathVariable("id") Long id) {
         userService.deleteUserById(id);
         return "redirect:/admin";
     }
-
-//добавление базового пользователя без админки (убрать RequestMapping)
-//    @Autowired
-//    RoleRepository roleRepository;
-
-//    @GetMapping("/default")
-//    public String base() {
-//        Set<Role> roleset = new HashSet<>();
-//        Role role = new Role(1L, "ROLE_ADMIN");
-//        roleRepository.save(role);
-//        roleset.add(role);
-//        User user = new User(
-//                  1L
-//                , "admin"
-//                , "admin"
-//                , "Dmitry"
-//                , "Karpenko"
-//                , "KidekpraysSoftware@gmail.com"
-//                , roleset);
-//        userService.saveUser(user);
-//        return "/index";
-//    }
 }

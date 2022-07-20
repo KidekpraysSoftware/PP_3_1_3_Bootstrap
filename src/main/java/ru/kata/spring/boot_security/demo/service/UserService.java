@@ -10,7 +10,7 @@ import java.util.Set;
 public interface UserService {
     User getUserById(Long id);
 
-   User getUserByUsername(String username);
+   User getUserByMail(String mail);
     List<User> getAllUsers();
 
     void saveUser(User User);
@@ -20,5 +20,5 @@ public interface UserService {
 
 
 
-    List<Role> getAllRoles();
+
 }
